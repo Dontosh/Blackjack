@@ -35,7 +35,7 @@ namespace Blackjack_v3
 
         public static void PrintCards(Person person, List<Card> cardsToPrint)
         {
-            
+
             // This if statement hides all dealer cards except one
             if (person.GameRole.Contains("Dealer") && !DealerFirstShow)
             {

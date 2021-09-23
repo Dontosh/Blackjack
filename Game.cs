@@ -83,11 +83,13 @@ namespace Blackjack_v3
                 _ui.HandleSoftAce();
                 if (_ui.PlaySoftAce)
                 {
-                    
+                    ClearConsole();
                     SoftAceCheck(_player.CardsOnHand, true);
                     PlayerTotal(_player.CardsOnHand);
                     MessageHandler.PrintCards(_player, _player.CardsOnHand);
                 }
+                ClearConsole();
+                MessageHandler.PrintCards(_player, _player.CardsOnHand);
             }
         }
 
@@ -100,6 +102,7 @@ namespace Blackjack_v3
             {
                 if (playerTotal == 21)
                 {
+                    MessageHandler.PrintCards(_player, _player.CardsOnHand);
                     MessageHandler.MessageChooser("HitOrStay");
                     _ui.HandleIo();
                     if (_ui.Hit)
@@ -116,6 +119,8 @@ namespace Blackjack_v3
                 _ui.HandleSoftAce();
                 if (_ui.PlaySoftAce)
                 {
+                    ClearConsole();
+                    MessageHandler.PrintCards(_player, _player.CardsOnHand);
                     MessageHandler.HasUsedSoftAce = true;
                     SoftAceCheck(_player.CardsOnHand, true);
                 }
@@ -129,15 +134,16 @@ namespace Blackjack_v3
                     playerTotal = PlayerTotal(_player.CardsOnHand);
                     if (hasSoftAce)
                     {
-                        MessageHandler.MessageChooser("PlayerSoftAce");
+                        MessageHandler.MessageChooser("PlaySoftAce");
                         _ui.HandleSoftAce();
                         if (_ui.PlaySoftAce)
                         {
+                            ClearConsole();
+                            MessageHandler.PrintCards(_player, _player.CardsOnHand);
                             MessageHandler.HasUsedSoftAce = true;
                             SoftAceCheck(_player.CardsOnHand, true);
                             playerTotal += _player.CardsOnHand.Last().Value;
                         }
-                        // If player not want to play soft ace then value is still 11
                     }
                     break;
 
@@ -145,11 +151,12 @@ namespace Blackjack_v3
                     _player.AddCardToHand(Deck.GetRandomCardFromDeckAndRemoveCardPicked());
                     if (SoftAceCheck(_player.CardsOnHand, false))
                     {
-                        ClearConsole();
                         MessageHandler.MessageChooser("PlaySoftAce");
                         _ui.HandleSoftAce();
                         if (_ui.PlaySoftAce)
                         {
+                            ClearConsole();
+                            MessageHandler.PrintCards(_player, _player.CardsOnHand);
                             MessageHandler.HasUsedSoftAce = true;
                             SoftAceCheck(_player.CardsOnHand, true);
                             PlayerTotal(_player.CardsOnHand);
@@ -191,11 +198,10 @@ namespace Blackjack_v3
                                     playerTotal += card.Value;
                                 }
                             }
-                            // If player not want to play soft ace then value is still 11
                         }
                         DealersTurn();
                     }
-                    else if (playerTotal == 21)
+                    else 
                     {
                         MessageHandler.PrintCards(_player, _player.CardsOnHand);
                         MessageHandler.MessageChooser("HitOrStay");
@@ -274,6 +280,7 @@ namespace Blackjack_v3
 
             return dealerTotal;
         }
+
         public int PlayerTotal(List<Card> playerCards)
         {
             int playerTotal = 0;

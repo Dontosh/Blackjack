@@ -68,8 +68,9 @@ namespace Blackjack_v3
 
             if (WrongInput)
             {
-                MessageHandler.MessageChooser("PlaySoftAce");
+                MessageHandler.MessageChooser("InvalidInput");
                 HandleSoftAce();
+                Console.Clear();
             }
         }
 
