@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace Blackjack_v3
@@ -18,18 +19,20 @@ namespace Blackjack_v3
         public static void MessageChooser(string chooseMessage)
         {
             IDictionary<string, string> messages = new Dictionary<string, string>();
-            messages.Add("Welcome", "Welcome to blackjack!\nPress [ENTER] to start. (Press any other key to exit)");
-            messages.Add("HitOrStay", "Hit or stay? (h/s) \n");
+            messages.Add("Welcome", "Welcome to blackjack!\nPress [ENTER] to start.\n\nNote: When you hit and your hand contains an ace,\nthe ace's value is automatically set to a soft ace value if your total exceeds 21.");
+            messages.Add("HitOrStay", "\nHit or stay? (h/s) \n");
             messages.Add("PlayAgain", "Play again? (y/n) \n");
             messages.Add("DealerWon", "The dealer won! \n");
             messages.Add("PlayerWon", "Player won! \n");
+            messages.Add("PlayerLost", "You lost!\n");
             messages.Add("Draw", "It's a draw! \n");
-            messages.Add("Blackjack", "### BLACKJACK! ### \n");
-            messages.Add("PlayerBust", "You bust!\n");
-            messages.Add("DealerBust", "The dealer bust!\n");
-            messages.Add("PlaySoftAce", "Play soft ace? (y/n)");
-            messages.Add("BothBust", "You both bust!");
-            messages.Add("InvalidInput", "Invalid input, try again");
+            messages.Add("Blackjack", "\n### BLACKJACK! ### \n");
+            messages.Add("PlayerBust", "\nYou bust!\n");
+            messages.Add("DealerBust", "\nThe dealer bust!\n");
+            messages.Add("PlaySoftAce", "Play soft ace? (y/n)\n");
+            messages.Add("BothBust", "\nYou both bust!\n");
+            messages.Add("InvalidInput", "Invalid input, try again\n");
+            messages.Add("Push", "PUSH!\n");
             Console.WriteLine(messages[chooseMessage]);
         }
 
@@ -37,11 +40,11 @@ namespace Blackjack_v3
         {
 
             // This if statement hides all dealer cards except one
-            if (person.GameRole.Contains("Dealer") && !DealerFirstShow)
+            if (person.GameRole.Contains("Dealer"))
             {
                 Console.WriteLine($"{person.GameRole} cards:");
                 Console.WriteLine($"\t{person.CardsOnHand[1]}");
-                DealerFirstShow = true;
+                Console.WriteLine("\t..hole card");
             }
             else
             {
@@ -95,18 +98,69 @@ namespace Blackjack_v3
 
         public static void DealerIsPlayingMessage()
         {
-            Console.WriteLine("Dealer is playing their cards");
-            Thread.Sleep(500);
             Game.ClearConsole();
-            Console.WriteLine("Dealer is playing their cards.");
-            Thread.Sleep(500);
+            Console.WriteLine("The dealer is playing...");
+            Thread.Sleep(300);
             Game.ClearConsole();
-            Console.WriteLine("Dealer is playing their cards..");
-            Thread.Sleep(500);
+            Console.WriteLine("The dealer is playing...");
+            Thread.Sleep(300);
             Game.ClearConsole();
-            Console.WriteLine("Dealer is playing their cards...");
-            Thread.Sleep(500);
+            Console.WriteLine("The dealer is playing...");
+            Thread.Sleep(300);
             Game.ClearConsole();
+        }
+
+        public static void DealerRevealsHoleCard(Person player, Person dealer)
+        {
+            int total = 0;
+            Game.EmptyLine(4 + player.CardsOnHand.Count);
+
+            Console.SetCursorPosition(0, 4 + player.CardsOnHand.Count);
+            Console.WriteLine("\tFlipping hole card.");
+            Thread.Sleep(500);
+            Console.SetCursorPosition(0, 4 + player.CardsOnHand.Count);
+            Console.WriteLine("\tFlipping hole card..");
+            Thread.Sleep(500);
+            Console.SetCursorPosition(0, 4 + player.CardsOnHand.Count);
+            Console.WriteLine("\tFlipping hole card...");
+            Thread.Sleep(500);
+            Game.EmptyLine(4 + player.CardsOnHand.Count);
+            Console.SetCursorPosition(0, 4 + player.CardsOnHand.Count);
+            Console.WriteLine("\t" + dealer.CardsOnHand[0]);
+            Thread.Sleep(500);
+            Console.SetCursorPosition(0, player.CardsOnHand.Count + dealer.CardsOnHand.Count);
+            foreach (Card card in dealer.CardsOnHand)
+            {
+                total += card.Value;
+            }
+            Console.SetCursorPosition(0,  3 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
+            Console.WriteLine($"\tTotal: {total}");
+        }
+        public static void DealerDrawsCards(Person dealer, Person player)
+        {
+            int total = 0;
+            Thread.Sleep(2000);
+            Game.EmptyLine(2 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
+            Console.SetCursorPosition(0, 2 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
+            Console.WriteLine("\tDrawing.");
+            Thread.Sleep(500);
+            Console.SetCursorPosition(0, 2 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
+            Console.WriteLine("\tDrawing..");
+            Thread.Sleep(500);
+            Console.SetCursorPosition(0, 2 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
+            Console.WriteLine("\tDrawing...");
+            Thread.Sleep(500);
+            Game.EmptyLine(2 + player.CardsOnHand.Count);
+            Console.SetCursorPosition(0, 2 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
+            Console.WriteLine($"\t{dealer.CardsOnHand.Last().Type}, {dealer.CardsOnHand.Last().Value}");
+            Console.SetCursorPosition(0, 3 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
+
+            foreach (Card card in dealer.CardsOnHand)
+            {
+                total += card.Value;
+            }
+
+            Console.WriteLine($"\tTotal: {total}");
         }
 
         #endregion
