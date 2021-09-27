@@ -27,7 +27,7 @@ namespace Blackjack_v3
             messages.Add("PlayerLost", "You lost!\n");
             messages.Add("Draw", "It's a draw! \n");
             messages.Add("Blackjack", "\n### BLACKJACK! ### \n");
-            messages.Add("PlayerBust", "\nYou bust!\n");
+            messages.Add("PlayerBust", "You bust!\n");
             messages.Add("DealerBust", "\nThe dealer bust!\n");
             messages.Add("PlaySoftAce", "Play soft ace? (y/n)\n");
             messages.Add("BothBust", "\nYou both bust!\n");
@@ -129,15 +129,17 @@ namespace Blackjack_v3
             Console.WriteLine("\t" + dealer.CardsOnHand[0]);
             Thread.Sleep(500);
             Console.SetCursorPosition(0, player.CardsOnHand.Count + dealer.CardsOnHand.Count);
+            
             foreach (Card card in dealer.CardsOnHand)
             {
                 total += card.Value;
             }
             Console.SetCursorPosition(0,  3 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
-            Console.WriteLine($"\tTotal: {total}");
+            //Console.WriteLine($"\tTotal: {total}");
         }
         public static void DealerDrawsCards(Person dealer, Person player)
         {
+            
             int total = 0;
             Thread.Sleep(2000);
             Game.EmptyLine(2 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
@@ -154,13 +156,14 @@ namespace Blackjack_v3
             Console.SetCursorPosition(0, 2 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
             Console.WriteLine($"\t{dealer.CardsOnHand.Last().Type}, {dealer.CardsOnHand.Last().Value}");
             Console.SetCursorPosition(0, 3 + player.CardsOnHand.Count + dealer.CardsOnHand.Count);
+            Console.SetCursorPosition(0, 1 + player.CardsOnHand.Count);
 
             foreach (Card card in dealer.CardsOnHand)
             {
                 total += card.Value;
             }
 
-            Console.WriteLine($"\tTotal: {total}");
+           // Console.WriteLine($"\tTotal: {total}");
         }
 
         #endregion

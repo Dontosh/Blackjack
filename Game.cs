@@ -362,11 +362,6 @@ namespace Blackjack_v3
                 
                 while (dealerTotal < 17) // If dealer had soft ace, and is still under 17, then dealer must draw another card
                 {
-                    if (hasSoftAce)
-                    {
-                        Console.WriteLine("The ace value is now 1");
-                    }
-
                     _dealer.AddCardToHand(Deck.GetRandomCardFromDeckAndRemoveCardPicked());
                     MessageHandler.DealerDrawsCards(_dealer, _player);
                     dealerTotal += _dealer.CardsOnHand.Last().Value;
@@ -399,7 +394,7 @@ namespace Blackjack_v3
 
                 
             }
-            else if (dealerTotal > 21)
+            else 
             {
                 CalculateResults();
             }
@@ -433,66 +428,75 @@ namespace Blackjack_v3
 
         public void CalculateResults()
         {
+            Console.SetCursorPosition(0, 4 + _player.CardsOnHand.Count + _dealer.CardsOnHand.Count);
+            Console.WriteLine("Player total: " + PlayerTotal(_player.CardsOnHand));
+            Console.WriteLine("Dealer total: " + DealerTotal(_dealer.CardsOnHand));
+            Console.SetCursorPosition(0, 10);
+            EmptyLine((1 + _player.CardsOnHand.Count));
             Console.WriteLine("Dealer cards: ");
+
+
             int dealerTotal = DealerTotal(_dealer.CardsOnHand);
             int playerTotal = PlayerTotal(_player.CardsOnHand);
+            int top = 6 + _player.CardsOnHand.Count + _dealer.CardsOnHand.Count;
 
             if (dealerTotal > 21 && playerTotal < 21)
             {
+                Console.SetCursorPosition(0, top);
                 MessageHandler.MessageChooser("DealerBust");
-                
                 PlayAgain();
             }
 
             if (playerTotal > 21 && dealerTotal < 21)
             {
+                Console.SetCursorPosition(0, top);
                 MessageHandler.MessageChooser("PlayerBust");
-                
                 PlayAgain();
             }
             else if (dealerTotal < 21 && playerTotal < 21)
             {
                 if (dealerTotal > playerTotal)
                 {
+                    Console.SetCursorPosition(0, top);
                     MessageHandler.MessageChooser("PlayerLost");
-                    
                     PlayAgain();
                 }
                 else if (dealerTotal == playerTotal)
                 {
+                    Console.SetCursorPosition(0, top);
                     MessageHandler.MessageChooser("PlayerWon");
-                   
                     PlayAgain();
                 }
                 else
                 {
+                    Console.SetCursorPosition(0, top);
                     MessageHandler.MessageChooser("PlayerWon");
-                    
                     PlayAgain();
                 }
             } 
             else if (dealerTotal > 21 && playerTotal > 21)
             {
+                Console.SetCursorPosition(0, top);
                 MessageHandler.MessageChooser("BothBust");
-                
                 PlayAgain();
             }
             else if (dealerTotal == 21 && playerTotal == 21)
             {
+                Console.SetCursorPosition(0, top);
                 MessageHandler.MessageChooser("Push");
-                
                 PlayAgain();
             }
 
             else if (dealerTotal == 21 && playerTotal != 21)
             {
+                Console.SetCursorPosition(0, top);
                 MessageHandler.MessageChooser("Blackjack");
                 MessageHandler.MessageChooser("DealerWon");
-                
                 PlayAgain();
             }
             else if (dealerTotal != 21 && playerTotal == 21)
             {
+                Console.SetCursorPosition(0, top);
                 MessageHandler.MessageChooser("Blackjack");
                 MessageHandler.MessageChooser("PlayerWon");
                 PlayAgain();
